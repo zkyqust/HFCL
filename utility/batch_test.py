@@ -35,7 +35,7 @@ def ranklist_by_heapq(user_pos_test, test_items, rating, Ks):
         item_score[i] = rating[i]
 
     K_max = max(Ks)
-    K_max_item_score = heapq.nlargest(K_max, item_score, key=item_score.get)  # 取出候选item中排名前K的item id
+    K_max_item_score = heapq.nlargest(K_max, item_score, key=item_score.get) 
 
     r = []
     for i in K_max_item_score:
