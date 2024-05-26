@@ -1,10 +1,3 @@
-'''
-Created on Oct 10, 2018
-Tensorflow Implementation of Neural Graph Collaborative Filtering (NGCF) model in:
-Wang Xiang et al. Neural Graph Collaborative Filtering. In SIGIR 2019.
-
-@author: Xiang Wang (xiangwang@u.nus.edu)
-'''
 import argparse
 
 def parse_args():
@@ -33,7 +26,7 @@ def parse_args():
                         help='Interval for evaluation.')
     parser.add_argument('--is_norm', type=int, default=1,
                         help='Whether to normalize.')
-    parser.add_argument('--epoch', type=int, default=500,
+    parser.add_argument('--epoch', type=int, default=1000,
                         help='Number of iterations.')
 
     parser.add_argument('--embed_size', type=int, default=64,
@@ -62,7 +55,7 @@ def parse_args():
 
     parser.add_argument('--aux_beh_idx', nargs='?', default='[0,1]')
 
-    # ******************************   SSL Internal Loss Arguments      ***************************** #
+    # ******************************   SSL(CL) Loss Arguments      ***************************** #
     parser.add_argument('--aug_type', type=int, default=0)
     parser.add_argument('--ssl_ratio', type=float, default=0.5)
     parser.add_argument('--ssl_temp', type=float, default=0.2)  # Behavior-aware
@@ -71,7 +64,6 @@ def parse_args():
     parser.add_argument('--ssl_reg', type=float, default=1)
     parser.add_argument('--ssl_mode', type=str, default='both_side')
 
-    # ******************************   SSL Cross-domain Loss Arguments      ***************************** #
     parser.add_argument('--ssl_reg_inter', nargs='?', default='[1,1,1]')
     parser.add_argument('--ssl_inter_mode', type=str, default='both_side')
 
