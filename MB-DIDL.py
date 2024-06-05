@@ -112,11 +112,12 @@ class MB_DIDL(nn.Module):
         self.all_weights['W_att2'] = Parameter(torch.FloatTensor(self.emb_dim, self.emb_dim))
         self.reset_parameters()
         self.all_weights = nn.ParameterDict(self.all_weights)
-        self.dropout = nn.Dropout(self.mess_dropout[0])
-        self.leaky_relu = nn.LeakyReLU(inplace=True)
         self.intent_dis_model = DisentanglementLayer(args, self.emb_dim, self.emb_dim, self.n_relations,
                                                      self.mess_dropout[0])
+        self.dropout = nn.Dropout(self.mess_dropout[0])
+        self.leaky_relu = nn.LeakyReLU(inplace=True)
 
+    
     def reset_parameters(self):
         nn.init.xavier_uniform_(self.all_weights['user_embedding'])
         nn.init.xavier_uniform_(self.all_weights['item_embedding'])
