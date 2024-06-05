@@ -108,8 +108,8 @@ class MB_DIDL(nn.Module):
                 torch.FloatTensor(self.weight_size_list[k], self.weight_size_list[k + 1]))
             self.all_weights['W_beh_%d' % k] = Parameter(
                 torch.FloatTensor(self.weight_size_list[k], self.weight_size_list[k + 1]))
-        self.all_weights['trans_weights_s1'] = Parameter(torch.FloatTensor(self.emb_dim, self.emb_dim))
-        self.all_weights['trans_weights_s2'] = Parameter(torch.FloatTensor(self.emb_dim, self.emb_dim))
+        self.all_weights['W_att1'] = Parameter(torch.FloatTensor(self.emb_dim, self.emb_dim))
+        self.all_weights['W_att2'] = Parameter(torch.FloatTensor(self.emb_dim, self.emb_dim))
         self.reset_parameters()
         self.all_weights = nn.ParameterDict(self.all_weights)
         self.dropout = nn.Dropout(self.mess_dropout[0])
@@ -121,8 +121,8 @@ class MB_DIDL(nn.Module):
         nn.init.xavier_uniform_(self.all_weights['user_embedding'])
         nn.init.xavier_uniform_(self.all_weights['item_embedding'])
         nn.init.xavier_uniform_(self.all_weights['behavior_embedding'])
-        nn.init.xavier_uniform_(self.all_weights['trans_weights_s1'])
-        nn.init.xavier_uniform_(self.all_weights['trans_weights_s2'])
+        nn.init.xavier_uniform_(self.all_weights['W_att1'])
+        nn.init.xavier_uniform_(self.all_weights['W_att2'])
         for k in range(self.n_layers):
             nn.init.xavier_uniform_(self.all_weights['W_gcn_%d' % k])
             nn.init.xavier_uniform_(self.all_weights['W_beh_%d' % k])
@@ -186,8 +186,8 @@ class MB_DIDL(nn.Module):
         all_embeddings /= self.n_layers + 1
 
         attention_weights = torch.matmul(
-            torch.matmul(all_global_embeddings, self.all_weights['trans_weights_s1']).unsqueeze(1),
-            torch.transpose(torch.matmul(all_embeddings, self.all_weights['trans_weights_s2']), 1, 2))
+            torch.matmul(all_global_embeddings, self.all_weights['W_att1']).unsqueeze(1),
+            torch.transpose(torch.matmul(all_embeddings, self.all_weights['W_att2']), 1, 2))
         attention_weights_normalized = F.softmax(attention_weights.squeeze(1), dim=1)
         p1_result = torch.einsum('ij,ik->ikj', all_global_embeddings, attention_weights_normalized)
         p2_result = torch.einsum('ij,ijk->ijk', (1 - attention_weights_normalized), all_embeddings)
