@@ -77,10 +77,10 @@ class DisentanglementLayer(nn.Module):
         return combined_outputs
 
 
-class MB_DIDL(nn.Module):
+class HFCL(nn.Module):
 
     def __init__(self, max_item_list, data_config, args):
-        super(MB_DIDL, self).__init__()
+        super(HFCL, self).__init__()
 
         self.max_item_list = max_item_list
         self.n_users = data_config['n_users']
@@ -433,7 +433,7 @@ if __name__ == '__main__':
         beh_label_list.append(beh_label)
 
     t0 = time()
-    model = MB_DIDL(max_item_list, data_config=config, args=args).to(device)
+    model = HFCL(max_item_list, data_config=config, args=args).to(device)
 
     recloss = RecLoss(data_config=config, args=args).to(device)
     loss_cl_b = LossClB(data_config=config, args=args).to(device)
