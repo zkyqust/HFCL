@@ -1,7 +1,7 @@
 import argparse
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Run MB_DIDL.")
+    parser = argparse.ArgumentParser(description="Run HFCL.")
 
     # ******************************   Optimizer Arguments      ***************************** #
     parser.add_argument('--lr', type=float, default=0.001,  # Common Parameters
